@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    <title>Validaciones con JS</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Registro de Personas</h1>
+      <form>
+        <b>Nombre:</b><br>
+        <input type="text" name="nombre"id="txtNombre"><br>
+        <b>Apellido:</b><br>
+        <input type="text" name="apellido"id="txtApellido"><br>
+        <br>
+        <b>Sexo:</b><br>
+        <input type="radio" name="genero" value="masculino">Masculino<br>
+        <input type="radio" name="genero" value="femenino">Femenino<br>
+        <input type="radio" name="genero" value="otro">Otro<br>
+        <br>
+        <br>
+        <b>Deporte::</b><br>
+        <select name="deporte">
+          <option value="tenis">Tenis</option>
+          <option value="rugby">Rugby</option>
+          <option value="futbol">Futbol</option>
+          <option value="basquet">Basquet</option>
+        </select>
+        <br>
+        <b>Descripcion del usuario:</b><br>
+        <textarea name="descripcion" rows="10"cols="60"id="txtDescripcion"></textarea>
+        <p id="contador">Cantidad de caracteres: 0</p><!--elemento que muestra cantidad de caracteres-->
+        <br>
+        <button type="button"onclick="validarForm()" >Validar</button>
+        <button type="button"onclick="guardarDatos()">Guardar</button>
+      </form>
+    </div>
+    
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+    -->
+    <script>
+      let contadorCaracteresDescripcion=document.getElementById("txtDescripcion")
+      contadorCaracteresDescripcion.addEventListener("input",function(){//agrega un eventlistenner al evento input
+        let contenido=contadorCaracteresDescripcion.value;//obtiene el contenido del textarea
+        let longitud=contenido.length;//obtiene la longitud del textarea
+        let contador=document.getElementById("contador");//muestra la cantidad de caracteres en el elemento contador
+        contador.textContent="Cantidad de caracteres: "+longitud;
+      })
+      function validarForm(){
+      //que el input nombre no este vacio
+      let txtNombre=document.getElementById("txtNombre")
+      let txtApellido=document.getElementById("txtApellido")
+      let txtDescripcion=document.getElementById("txtDescripcion")
+      var radioButtonGenero=document.getElementsByName("genero")//al ser varios elementos obtengo por getelementByName
+      
+      //console.log(radioButtonGenero)//tenemos un array de elementos de tipo input radio
+      let algunoSeleccionado=false;//iterar para validar que un elemento de los radiobutton este seleccionado cuando hagamos click en validar
+      for(let i=0;i<radioButtonGenero.length;i++){//validar que algun radiobutton este chequeado
+        if(radioButtonGenero[i].checked)
+        algunoSeleccionado=true;
+        break;
+      }
+      if(algunoSeleccionado==false){
+        alert("al menos un genero debe ser seleccionado")
+      }
+      
+      //console.log(txtNombre.value)//valido que entre un contenido
+      //validacion que tenga un contenido el input nombre
+      if(txtNombre.value===""){
+        alert("el campo nombre es requerido")
+        return false;
+      }
+      if(txtApellido.value===""){
+        alert("el campo apellido es requerido")
+        return false;
+      }
+      if(txtDescripcion.value===""){
+        alert("el campo descripcion es requerido")
+        return false;
+      }else if(txtDescripcion.value.length<10){//validar que tenga como maximo cierto numero de caracteres
+        alert("debe tener un minimo de 10 caracteres")
+        return false;
+      }else if(txtDescripcion.value.length>100){//validar que tenga como maximo cierto numero de caracteres
+        alert("debe tener un limite de 100 caracteres")
+        return false;
+      }
+      return true;//si todo esta validado retorna true
+
+      }
+      function guardarDatos(){//cuando se haga click se validan los datos
+        if(validarForm()==true){
+          alert("Guardando datos...")
+        }else{
+          alert("Error de validacion")
+        }
+      }
+    </script>
+  </body>
+</html>
